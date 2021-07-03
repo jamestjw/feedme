@@ -55,17 +55,13 @@ func FetchFeed(accountID *string) (InstagramFeedResponse, error) {
 	igResponse := InstagramFeedResponse{}
 
 	client := &http.Client{}
-	req, err := http.NewRequest("GET", fmt.Sprintf("https://www.instagram.com/%s/channel/?__a=1", *accountID), nil)
+	req, err := http.NewRequest("GET", fmt.Sprintf("https://www.instagram.com/%s/feed/?__a=1", *accountID), nil)
 	if err != nil {
 		panic(err)
 	}
 
 	req.Header.Set("User-Agent", "feedme-cli-tool/1.0")
 	resp, err := client.Do(req)
-	if err != nil {
-		return igResponse, errors.New(fmt.Sprintf("Failed to fetch instagram feeds for account ID %s", *accountID))
-	}
-
 	if err != nil {
 		return igResponse, errors.New(fmt.Sprintf("Failed to fetch instagram feeds for account ID %s", *accountID))
 	}

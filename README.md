@@ -1,13 +1,30 @@
 # feedme
 
-Simple tool to create an RSS feed from an instagram profile. 
+Simple tool to create an RSS feed from an instagram profile. This comes with both a CLI tool and a webapp.
 
-## Usage
-Suppose that we want an RSS feed of McDonald's instagram handle @mcdonalds, we just have to do the following
-``` bash
-./feedme -t mcdonalds
+## Installation
+```
+# Build both
+make 
+
+# Build just the webapp
+make feedme-webapp
+
+# Build just the cli tool
+make feedme-cli
 ```
 
-## Potential improvements
+## Usage
 
-Make it possible to host this tool as a web application so that the feeds can be accessed like typical RSS feeds.
+### Webapp
+``` bash
+./feedme-cli -p 8080
+```
+
+Access `http://localhost:8080/instagram/user/{instagram-name}` to get the XML feed for a particular user.
+
+### CLI tool
+Suppose that we want an RSS feed of McDonald's instagram handle @mcdonalds, we just have to do the following
+``` bash
+./feedme-cli -t mcdonalds
+```

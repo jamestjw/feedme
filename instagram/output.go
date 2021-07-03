@@ -3,13 +3,13 @@ package instagram
 
 import (
 	"encoding/xml"
-	"errors"
 	"fmt"
 	"time"
 )
 
 type RSSContent struct {
 	XMLName xml.Name `xml:"rss"`
+	Version string   `xml:"version,attr"`
 	Channel struct {
 		Title         string    `xml:"title"`
 		Link          string    `xml:"link"`
@@ -39,7 +39,7 @@ type RSSMediaItem struct {
 	VideoUrl   string `xml:"videoUrl,omitempty"`
 }
 
-func GenerateXML(feed InstagramFeedResponse) (string, error) {
+func GenerateOutput(feed InstagramFeedResponse) (RSSContent, error) {
 	currTimeString := time.Now().Format(time.RFC822)
 	content := newInitialisedRSSContent(currTimeString)
 	content.Channel.Title = fmt.Sprintf("Instagram feed of %s", feed.Data.User.Username)
@@ -66,16 +66,12 @@ func GenerateXML(feed InstagramFeedResponse) (string, error) {
 		content.Channel.LastBuildDate = currTimeString
 	}
 
-	xmlString, err := xml.Marshal(content)
-	if err != nil {
-		return "", errors.New("Failed to format RSS output")
-	}
-
-	return string(xmlString), nil
+	return content, nil
 }
 
 func newInitialisedRSSContent(timeString string) RSSContent {
 	content := RSSContent{}
+	content.Version = "2.0"
 	content.Channel.Language = "en-us"
 	content.Channel.PubDateStr = timeString
 	return content

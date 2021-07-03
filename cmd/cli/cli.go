@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/xml"
 	"flag"
 	"fmt"
 	"io/ioutil"
@@ -31,7 +32,15 @@ func main() {
 		os.Exit(1)
 	}
 
-	outString, err := instagram.GenerateXML(data)
+	content, err := instagram.GenerateOutput(data)
+
+	output, err := xml.MarshalIndent(content, "  ", "    ")
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Internal error: unable to produce output\n")
+		os.Exit(1)
+	}
+
+	outString := xml.Header + string(output)
 
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
