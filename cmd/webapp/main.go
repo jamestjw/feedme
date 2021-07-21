@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/gorilla/mux"
 	"github.com/jamestjw/feedme/instagram"
@@ -54,14 +55,20 @@ func logRequest(handler http.Handler) http.Handler {
 }
 
 func main() {
-	var port = flag.Int("p", 8080, "Port to launch webapp")
+	var portArg = flag.String("p", "8080", "Port to launch webapp")
 	flag.Parse()
+
+	// Get PORT from env variable
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = *portArg // Fall back to portArg since it has a default value
+	}
 
 	r := mux.NewRouter()
 	// Set up this way so we can support other feeds in the future
 	instagramRouter := r.PathPrefix("/instagram").Subrouter()
 	instagramRouter.HandleFunc("/user/{username}", InstagramUserHandler).Methods("GET")
 
-	log.Printf("Listening on port %d", *port)
-	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", *port), logRequest(r)))
+	log.Printf("Listening on port %s", port)
+	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%s", port), logRequest(r)))
 }

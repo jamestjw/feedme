@@ -2,11 +2,11 @@ OUTDIR=.
 
 feedme: feedme-webapp feedme-cli
 
-feedme-webapp: ./cmd/webapp/webapp.go
-	go build -o $(OUTDIR)/feedme-webapp ./cmd/webapp/webapp.go
+feedme-webapp: ./cmd/webapp/main.go
+	go build -o $(OUTDIR)/feedme-webapp ./cmd/webapp/main.go
 
-feedme-cli: ./cmd/cli/cli.go
-	go build -o $(OUTDIR)/feedme-cli ./cmd/cli/cli.go
+feedme-cli: ./cmd/cli/main.go
+	go build -o $(OUTDIR)/feedme-cli ./cmd/cli/main.go
 
 clean:
 	rm -f $(OUTDIR)/feedme-cli

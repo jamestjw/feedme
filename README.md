@@ -19,6 +19,10 @@ make feedme-cli
 ### Webapp
 ``` bash
 ./feedme-cli -p 8080
+
+# or
+
+PORT=8080 ./feedme-cli
 ```
 
 Access `http://localhost:8080/instagram/user/{instagram-name}` to get the XML feed for a particular user.
